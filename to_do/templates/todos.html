@@ -1,0 +1,93 @@
+{% extends 'base.html'%}{% block title %}To-Do List{% endblock %}
+{% block content%}
+<style>
+.myDiv {
+  border: 3px solid black;
+  padding: 23px;
+}
+.pad {
+   padding-right: 260px;
+}
+.space {
+  padding-left: 190px;
+}
+.spac {
+ padding-left: 350px; 
+}
+</style>
+<h1>{{current_user.first_name}}'s Task list - </h1>
+<section class="container">
+   <div class="row">
+      <div class="col" >
+         <br>
+        <form action="{{url_for('tasks.add_tasks')}}" method="post" >
+         <div class="myDiv">
+            <div class="col">
+            {{ ds.task_name.label }} :
+            {{ ds.task_name(size =32) }}
+            &nbsp;
+            &nbsp;
+            {{ ds.due_date.label }} :
+            {{ ds.due_date(size=32) }}
+            &emsp;
+            {{ ds.status.label }} :
+            {{ ds.status() }}
+           &emsp;
+           &emsp;
+           &emsp;
+           &emsp;
+           &emsp;
+           &emsp;
+           &emsp;
+          {{ ds.submit() }}
+         </div>
+         </div>
+        </form>
+      </div>
+    </div>
+   <br>
+    <div class="row">
+      <div class="col" >
+         {% for todo in todos | reverse %}
+         <div class="myDiv">
+            <div class="row">
+               <div class="pad">
+         <ul id =round>
+            <li>{{todo.task_name}}</li>
+            <br>
+            <li>{{todo.due_date.strftime('%A:%d-%b-%Y')}}</li>
+            <br>
+            <li>Status: {{todo.status}}</li>
+            <br>
+         </ul>
+         </div>
+         <br>
+         <form action="{{url_for('tasks.edit_task',id=todo.id)}}" method="post">
+            <p>
+               
+               {{ form.task_name(size =32) }} 
+            </p>
+            <p>
+               {{ form.due_date(size=32) }}</p>
+            </p>
+            <p> {{form.status}}&emsp;{{ form.submit() }}
+         </form> 
+         &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+         <a href="{{ url_for('tasks.delete', id=todo.id) }}">
+            <button class="add_button">delete this task</button>
+         </a>
+      </div>
+      
+         </div>
+         <br>
+         
+         {% endfor %}
+         </div>
+   </div>
+    </div>
+
+</section>
+
+
+{% endblock %}
+<!-- <li><a href = "{{ url_for('post', id=todo['id']) }}">{{todo.task_name}}</a></p> -->
